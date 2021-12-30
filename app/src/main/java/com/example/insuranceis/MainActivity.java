@@ -57,13 +57,18 @@ public class MainActivity extends AppCompatActivity {
                     JSONObject object = response.getJSONObject(i);
                     String name = object.getString("firstMidName");
                     String surname = object.getString("lastName");
+                    String address = object.getString("address");
+                    Integer zipcode = object.getInt("zipCode");
+                    String city = object.getString("city");
 
-                    data.add(name + " " + surname);
+                    data.add(name + " " + surname + "; " + address + ", " + zipcode + " " + city);
                 }catch (JSONException e){
                     e.printStackTrace();
                     return;
                 }
             }
+
+            Insured.setText("");
             for (String row: data){
                 String currentText = Insured.getText().toString();
                 Insured.setText(currentText + "\n\n" + row);
