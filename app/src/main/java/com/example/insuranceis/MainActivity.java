@@ -138,11 +138,11 @@ public class MainActivity extends AppCompatActivity {
                     String dateFrom = object.getString("dateFrom").split("T")[0];
                     String dateTo = object.getString("dateTo").split("T")[0];
                     Integer insuredID = object.getInt("insuredID");
-                    Integer insuranceSubjectID = object.getInt("insuranceSubjectID");
-                    Integer insuranceSubtypeID = object.getInt("insuranceSubtypeID");
+//                    Integer insuranceSubjectID = object.getInt("insuranceSubjectID");
+//                    Integer insuranceSubtypeID = object.getInt("insuranceSubtypeID");
 
 
-                    data.add(policyID + ", " + cost + "€ " + dateFrom + " to " + dateTo + "; " + insuredID + ", " + insuranceSubjectID + ", " + insuranceSubtypeID);
+                    data.add("PolicyID " + policyID + ", "  + cost + " € " + dateFrom + " to " + dateTo + "; InsuredID: " + insuredID);
                 }catch (JSONException e){
                     e.printStackTrace();
                     return;
