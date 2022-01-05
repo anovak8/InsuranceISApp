@@ -15,6 +15,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.android.volley.AuthFailureError;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -26,7 +28,8 @@ import org.json.JSONObject;
 
 import java.security.Policy;
 import java.util.ArrayList;
-
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -45,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView Policy;
     private String urlInsured = "https://insurance-is-dev.azurewebsites.net/api/v1/Insured";
     private String urlPolicy = "https://insurance-is-dev.azurewebsites.net/api/v1/InsurancePolicy";
+    //private String urlInsuredClient = "https://insurance-is-dev.azurewebsites.net/api/v1/Insured/1";
 
 
     @Override
@@ -58,17 +62,34 @@ public class MainActivity extends AppCompatActivity {
 
     public void prikaziInsured(View view){
         if (view != null){
-            JsonArrayRequest request = new JsonArrayRequest(urlInsured, insuredArrayListener, errorListener);
+            JsonArrayRequest request = new JsonArrayRequest(urlInsured, insuredArrayListener, errorListener)
+            {
+                @Override
+                public Map<String,String> getHeaders() throws AuthFailureError{
+                    Map<String,String> params = new HashMap<String,String>();
+                    params.put("ApiKey", "SecretKey");
+                    return params;
+            }
+            };
             requestQueue.add(request);
         }
     }
 
     public void prikaziPolicy(View view){
         if (view != null){
-            JsonArrayRequest request = new JsonArrayRequest(urlPolicy, policyArrayListener, errorListener);
+            JsonArrayRequest request = new JsonArrayRequest(urlPolicy, policyArrayListener, errorListener)
+            {
+                @Override
+                public Map<String,String> getHeaders() throws AuthFailureError{
+                    Map<String,String> params = new HashMap<String,String>();
+                    params.put("ApiKey", "SecretKey");
+                    return params;
+                }
+            };
             requestQueue.add(request);
         }
     }
+
 
     private Response.Listener<JSONArray> insuredArrayListener = new Response.Listener<JSONArray>() {
         @Override
@@ -119,6 +140,7 @@ public class MainActivity extends AppCompatActivity {
                     Integer insuredID = object.getInt("insuredID");
                     Integer insuranceSubjectID = object.getInt("insuranceSubjectID");
                     Integer insuranceSubtypeID = object.getInt("insuranceSubtypeID");
+
 
                     data.add(policyID + ", " + cost + "€ " + dateFrom + " to " + dateTo + "; " + insuredID + ", " + insuranceSubjectID + ", " + insuranceSubtypeID);
                 }catch (JSONException e){
